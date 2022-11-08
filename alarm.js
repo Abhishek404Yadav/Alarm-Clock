@@ -23,7 +23,8 @@ for (let i = 2; i > 0; i--) {
     let option = `<option value="${ampm}">${ampm}</option>`;
     selectMenu_ui[2].firstElementChild.insertAdjacentHTML("afterend", option);
 }
-// Thsis function is for 12h Digital Clock
+// This function is for 12h Digital Clock
+//ghsdjklkjcn
 setInterval(() => {
     let date = new Date(),
     h = date.getHours(),
@@ -40,8 +41,33 @@ setInterval(() => {
     s = s < 10 ? "0" + s : s;
     currentTime_ui.innerText = `${h}:${m}:${s} ${ampm}`;
 
-    // if (alarmTime === `${h}:${m} ${ampm}`) {
-    //     ringtone.play();
-    //     ringtone.loop = true;
-    // }
+    //This condition will set alarm for the alarmTime
+    if (alarmTime === `${h}:${m} ${ampm}`) {
+        ringtone.play();
+        ringtone.loop = true;
+    }
 });
+
+
+// function for setting and clearing alarm
+function setAlarm() {
+    if (isAlarmSet) {
+        alarmTime = "";
+        ringtone.pause();
+        content_ui.classList.remove("disable");
+        setAlarmBtn_ui.innerText = "Set Alarm";
+        return isAlarmSet = false;
+    }
+    let time = `${selectMenu_ui[0].value}:${selectMenu_ui[1].value} ${selectMenu_ui[2].value}`;
+    if (time.includes("Hour") || time.includes("Minute") || time.includes("AM/PM")) {
+        return alert("Please, select a valid time to set Alarm!");
+    }
+    alarmTime = time;
+    isAlarmSet = true;
+    content_ui.classList.add("disable");
+    setAlarmBtn_ui.innerText = "Clear Alarm";
+}
+
+setAlarmBtn_ui.addEventListener("click", setAlarm);
+
+
