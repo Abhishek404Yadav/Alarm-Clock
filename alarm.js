@@ -23,3 +23,25 @@ for (let i = 2; i > 0; i--) {
     let option = `<option value="${ampm}">${ampm}</option>`;
     selectMenu_ui[2].firstElementChild.insertAdjacentHTML("afterend", option);
 }
+// Thsis function is for 12h Digital Clock
+setInterval(() => {
+    let date = new Date(),
+    h = date.getHours(),
+    m = date.getMinutes(),
+    s = date.getSeconds(),
+    ampm = "AM";
+    if(h >= 12) {
+        h = h - 12;
+        ampm = "PM";
+    }
+    h = h == 0 ? h = 12 : h;
+    h = h < 10 ? "0" + h : h;
+    m = m < 10 ? "0" + m : m;
+    s = s < 10 ? "0" + s : s;
+    currentTime_ui.innerText = `${h}:${m}:${s} ${ampm}`;
+
+    // if (alarmTime === `${h}:${m} ${ampm}`) {
+    //     ringtone.play();
+    //     ringtone.loop = true;
+    // }
+});
