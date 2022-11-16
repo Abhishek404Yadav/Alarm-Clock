@@ -1,73 +1,101 @@
 const currentTime_ui = document.querySelector("h1");
 const content_ui = document.querySelector(".content");
 const selectMenu_ui = document.querySelectorAll("select");
-const setAlarmBtn_ui = document.querySelector("button");
+const setAlarmBtn_ui = document.querySelector(".setBtn");
+const clearAlarmBtn_ui = document.querySelector(".clearBtn");
+const alarmList_ui = document.querySelector("#myList");
+const alarmList = []; //Stores alarms as an array
+let alarmTime,
+  newAlarm,
+  ringtone = new Audio("./Resources/Alarmalert.wav");
 
-let alarmTime, isAlarmSet,
-ringtone = new Audio("./Resources/Alarmalert.wav");
-
-// These three loops is for adding options for selectmenu 
-for (let i = 12; i > 0; i--) {
+// This Function is for adding options for selectmenu
+function addOption() {
+  for (let i = 12; i > 0; i--) {
     i = i < 10 ? `0${i}` : i;
     let option = `<option value="${i}">${i}</option>`;
     selectMenu_ui[0].firstElementChild.insertAdjacentHTML("afterend", option);
-}
-for (let i = 59; i >= 0; i--) {
+  }
+  for (let i = 59; i >= 0; i--) {
     i = i < 10 ? `0${i}` : i;
     let option = `<option value="${i}">${i}</option>`;
     selectMenu_ui[1].firstElementChild.insertAdjacentHTML("afterend", option);
-}
+  }
 
-for (let i = 2; i > 0; i--) {
+  for (let i = 2; i > 0; i--) {
     let ampm = i == 1 ? "AM" : "PM";
     let option = `<option value="${ampm}">${ampm}</option>`;
     selectMenu_ui[2].firstElementChild.insertAdjacentHTML("afterend", option);
+  }
 }
 // This function is for 12h Digital Clock
-//ghsdjklkjcn
 setInterval(() => {
-    let date = new Date(),
+  let date = new Date(),
     h = date.getHours(),
     m = date.getMinutes(),
     s = date.getSeconds(),
     ampm = "AM";
-    if(h >= 12) {
-        h = h - 12;
-        ampm = "PM";
-    }
-    h = h == 0 ? h = 12 : h;
-    h = h < 10 ? "0" + h : h;
-    m = m < 10 ? "0" + m : m;
-    s = s < 10 ? "0" + s : s;
-    currentTime_ui.innerText = `${h}:${m}:${s} ${ampm}`;
+  if (h >= 12) {
+    h = h - 12;
+    ampm = "PM";
+  }
+  h = h == 0 ? (h = 12) : h;
+  h = h < 10 ? "0" + h : h;
+  m = m < 10 ? "0" + m : m;
+  s = s < 10 ? "0" + s : s;
+  currentTime_ui.innerText = `${h}:${m}:${s} ${ampm}`;
 
-    //This condition will set alarm for the alarmTime
-    if (alarmTime === `${h}:${m} ${ampm}`) {
-        ringtone.play();
-        ringtone.loop = true;
-    }
+  //This condition will set alarm for the alarmTime
+  if (alarmTime === `${h}:${m} ${ampm}`) {
+    ringtone.play();
+    ringtone.loop = true;
+    isAlarmSet = true;
+  }
 });
 
-
-// function for setting and clearing alarm
+// function for Setting Alarm
 function setAlarm() {
-    if (isAlarmSet) {
-        alarmTime = "";
-        ringtone.pause();
-        content_ui.classList.remove("disable");
-        setAlarmBtn_ui.innerText = "Set Alarm";
-        return isAlarmSet = false;
-    }
-    let time = `${selectMenu_ui[0].value}:${selectMenu_ui[1].value} ${selectMenu_ui[2].value}`;
-    if (time.includes("Hour") || time.includes("Minute") || time.includes("AM/PM")) {
-        return alert("Please, select a valid time to set Alarm!");
-    }
-    alarmTime = time;
-    isAlarmSet = true;
-    content_ui.classList.add("disable");
-    setAlarmBtn_ui.innerText = "Clear Alarm";
+  let time = `${selectMenu_ui[0].value}:${selectMenu_ui[1].value} ${selectMenu_ui[2].value}`;
+  if (
+    time.includes("Hour") ||
+    time.includes("Minute") ||
+    time.includes("AM/PM")
+  ) {
+    return alert("Please, select a valid time to set Alarm!");
+  }
+  newAlarm = time;
+  if (!alarmList.includes(newAlarm)) {
+    alarmList.push(newAlarm);
+    console.log(alarmList);
+    console.log(alarmList.length);
+    selectMenu_ui[0].innerHTML = `<option value="Hour" selected >Hour</option>`;
+    selectMenu_ui[1].innerHTML = `<option value="Hour" selected >Minute</option>`;
+    selectMenu_ui[2].innerHTML = `<option value="Hour" selected >AM/PM</option>`;
+    addNewAlarmList();
+    addOption();
+  } else {
+    alert(`Alarm for ${newAlarm} is already set.`);
+  }
 }
-
+// Function for Clearing Alarm
+function clearAlarm() {
+  if (isAlarmSet) {
+    alarmTime = "";
+    ringtone.pause();
+    isAlarmSet = false;
+  }
+}
+// Function for Updating alarm List in the UI Alarm list and DOM
+function addNewAlarmList() {
+  console.log(newAlarm);
+  const listItem = `<li class = "time-list">        
+    <span class="time">${newAlarm}</span>
+    <button class="deleteAlarm " onclick = "remove(this.value)" value=${newAlarm}>Delete</button>       
+    </li>`;
+  alarmList_ui.innerHTML = alarmList_ui.innerHTML + listItem;
+}
+//Write delete function of delete button
+// function to delete new alarm when clicked
+clearAlarmBtn_ui.addEventListener("click", clearAlarm);
 setAlarmBtn_ui.addEventListener("click", setAlarm);
-
-
+addOption();

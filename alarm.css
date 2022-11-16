@@ -3,51 +3,52 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Tiro Devanagari Hindi', serif;
+  font-family: "Poppins", "Tiro Devanagari Hindi", serif;
   font-weight: 500;
 }
-body,
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 70px;
+  gap: 30px;
+  max-height: 100vh;
+  background: linear-gradient(to left, rgb(10, 224, 224), rgb(6, 201, 16));
+}
 .wrapper,
 .content {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-body {
-  padding: 0 10px;
-  min-height: 100vh;
-  background: linear-gradient(to left, rgb(10, 224, 224), rgb(6, 201, 16));
-}
+/* Wrapper */
 .wrapper {
-  width: 440px;
-  padding: 30px 30px 38px;
+  width: 400px;
+  padding: 20px 20px;
   background: #fff;
   border-radius: 10px;
   flex-direction: column;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
+/* Timer CSS */
 .wrapper h1 {
   font-size: 38px;
   font-weight: 500;
-  margin: 30px 0;
-  font-family: 'Poppins','Tiro Devanagari Hindi', serif;
+  margin: 15px 0;
+  font-family: "Poppins", "Tiro Devanagari Hindi", serif;
 }
+/* Div of H M AM/PM*/
 .wrapper .content {
   width: 100%;
   justify-content: space-between;
 }
-.content.disable {
-  cursor: no-drop;
-}
-.content .column {
+/* div of select */
+.column {
   padding: 0 10px;
   border-radius: 5px;
   border: 1px solid #bfbfbf;
   width: calc(100% / 3 - 5px);
-}
-.content.disable .column {
-  opacity: 0.6;
-  pointer-events: none;
 }
 .column select {
   width: 100%;
@@ -57,15 +58,78 @@ body {
   background: none;
   font-size: 19px;
 }
+/* Set Alarm and clear alarm button Styling */
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10%;
+  width: 400px;
+}
 .wrapper button {
-  width: 100%;
+  width: 35%;
   border: none;
   outline: none;
   color: #fff;
   cursor: pointer;
+  transition: all, 0.2s;
+  font-family: "Tiro Devanagari Hindi", serif;
   font-size: 20px;
-  padding: 17px 0;
+  padding: 10px 0;
   margin-top: 20px;
   border-radius: 5px;
   background: linear-gradient(to right, rgb(10, 224, 224), rgb(6, 201, 16));
+  box-shadow: rgb(0 0 0 / 75%) 7px 5px 20px -4px;
+}
+/* Div of Alarm Record */
+.alarmRecord {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  gap: 15px;
+  padding: 20px 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+/* Styling of Alarm list */
+.time-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 60px;
+  width: 300px;
+  border-radius: 10px;
+  align-items: center;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.time-list span {
+  font-size: 15px;
+  background: linear-gradient(to right, rgb(10, 224, 224), rgb(6, 201, 16));
+  width: 7rem;
+  padding: 8px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: rgb(0 0 0 / 75%) 7px 5px 20px -4px;
+}
+/* Delete button of aded alarm */
+.deleteAlarm {
+  font-size: 15px;
+  box-shadow: rgb(0 0 0 / 75%) 7px 5px 20px -4px;
+  background-color: red;
+  transition: all 0.2s;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  width: 5rem;
+  cursor: pointer;
+}
+/* Active feature in Buttons */
+.deleteAlarm:active,
+button:active {
+  transform: scale(0.8);
+  box-shadow: none;
 }
