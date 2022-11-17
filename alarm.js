@@ -51,7 +51,7 @@ setInterval(() => {
     ringtone.loop = true;
     isAlarmSet = true;
   }
-},2000);
+});
 
 // function for Setting Alarm
 function setAlarm() {
@@ -78,16 +78,16 @@ function setAlarm() {
   }
 }
 // Pop the Alarm from array of Current time
-function popElement(alarmList,index){
+function popElement(index){
+  alarmList.indexOf(`${index}`)
   alarmList.splice(index,1);
-  console.log(alarmList);
-  console.log(alarmList.length);
+  //console.log(alarmList);
+  //console.log(alarmList.length);
 }
 // Function for Clearing Alarm
 function clearAlarm() {
   if (isAlarmSet) {
-    //pop that alarm from array
-    popElement(alarmList , alarmList.indexOf(`${now}`));
+    popElement(now);
     ringtone.pause();
     isAlarmSet = false;
   }
@@ -97,12 +97,19 @@ function addNewAlarmList() {
   console.log(newAlarm);
   const listItem = `<li class = "time-list">        
     <span class="time">${newAlarm}</span>
-    <button class="deleteAlarm " onclick = "popElement(this.value)" value=${newAlarm}>Delete</button>       
+    <button class="deleteAlarm " onclick = "popElement(this.value)" value="${newAlarm}">Delete</button>       
     </li>`;
   alarmList_ui.innerHTML = alarmList_ui.innerHTML + listItem;
+  // const deleteBtn_ui = Array.from(document.querySelectorAll(".deleteAlarm"));
 }
-clearAlarmBtn_ui.addEventListener("click", clearAlarm);
-setAlarmBtn_ui.addEventListener("click", setAlarm);
 addOption();
-//Write function of delete button to delete the alarm from Array
-// function to delete list alarm when clicked from ui
+// !Event to Clear Alarm
+clearAlarmBtn_ui.addEventListener("click", clearAlarm);
+// !Event to Set Alarm
+setAlarmBtn_ui.addEventListener("click", setAlarm);
+//!Event to delete Alarm from UI & Array
+alarmList_ui.addEventListener('click', e=> {
+  if(e.target.classList.contains("deleteAlarm")){
+      e.target.parentElement.remove();
+  }    
+})
