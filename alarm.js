@@ -77,7 +77,7 @@ function setAlarm() {
     alert(`Alarm for ${newAlarm} is already set.`);
   }
 }
-// Pop the Alarm from array of Current time
+// Pop the Alarm from array
 function popElement(index){
   alarmList.indexOf(`${index}`)
   alarmList.splice(index,1);
