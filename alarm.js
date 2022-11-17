@@ -5,8 +5,8 @@ const setAlarmBtn_ui = document.querySelector(".setBtn");
 const clearAlarmBtn_ui = document.querySelector(".clearBtn");
 const alarmList_ui = document.querySelector("#myList");
 const alarmList = []; //Stores alarms as an array
-let alarmTime,
-  newAlarm,
+let isAlarmSet=false,
+  newAlarm,now,
   ringtone = new Audio("./Resources/Alarmalert.wav");
 
 // This Function is for adding options for selectmenu
@@ -44,14 +44,14 @@ setInterval(() => {
   m = m < 10 ? "0" + m : m;
   s = s < 10 ? "0" + s : s;
   currentTime_ui.innerText = `${h}:${m}:${s} ${ampm}`;
-
-  //This condition will set alarm for the alarmTime
-  if (alarmTime === `${h}:${m} ${ampm}`) {
+   now=`${h}:${m} ${ampm}`;
+  //This condition will ring the alarm for the alarmTime
+  if (alarmList.includes(now)) {
     ringtone.play();
     ringtone.loop = true;
     isAlarmSet = true;
   }
-});
+},2000);
 
 // function for Setting Alarm
 function setAlarm() {
@@ -71,16 +71,21 @@ function setAlarm() {
     selectMenu_ui[0].innerHTML = `<option value="Hour" selected >Hour</option>`;
     selectMenu_ui[1].innerHTML = `<option value="Hour" selected >Minute</option>`;
     selectMenu_ui[2].innerHTML = `<option value="Hour" selected >AM/PM</option>`;
-    addNewAlarmList();
-    addOption();
+    addOption();// add the option because they have been modified
+    addNewAlarmList();// adds new alarm in the alarm list
   } else {
     alert(`Alarm for ${newAlarm} is already set.`);
   }
 }
+// Pop the Alarm from array of Current time
+function popElement(alarmList,index){
+  alarmList.splice(index,1);
+}
 // Function for Clearing Alarm
 function clearAlarm() {
   if (isAlarmSet) {
-    alarmTime = "";
+    //pop that alarm from array
+    popElement(alarmList , alarmList.indexOf(`${now}`));
     ringtone.pause();
     isAlarmSet = false;
   }
@@ -94,8 +99,8 @@ function addNewAlarmList() {
     </li>`;
   alarmList_ui.innerHTML = alarmList_ui.innerHTML + listItem;
 }
-//Write delete function of delete button
-// function to delete new alarm when clicked
 clearAlarmBtn_ui.addEventListener("click", clearAlarm);
 setAlarmBtn_ui.addEventListener("click", setAlarm);
 addOption();
+//Write function of delete button to delete the alarm from Array
+// function to delete list alarm of ui 
