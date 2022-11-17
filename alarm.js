@@ -80,6 +80,8 @@ function setAlarm() {
 // Pop the Alarm from array of Current time
 function popElement(alarmList,index){
   alarmList.splice(index,1);
+  console.log(alarmList);
+  console.log(alarmList.length);
 }
 // Function for Clearing Alarm
 function clearAlarm() {
@@ -95,7 +97,7 @@ function addNewAlarmList() {
   console.log(newAlarm);
   const listItem = `<li class = "time-list">        
     <span class="time">${newAlarm}</span>
-    <button class="deleteAlarm " onclick = "remove(this.value)" value=${newAlarm}>Delete</button>       
+    <button class="deleteAlarm " onclick = "popElement(this.value)" value=${newAlarm}>Delete</button>       
     </li>`;
   alarmList_ui.innerHTML = alarmList_ui.innerHTML + listItem;
 }
@@ -103,4 +105,4 @@ clearAlarmBtn_ui.addEventListener("click", clearAlarm);
 setAlarmBtn_ui.addEventListener("click", setAlarm);
 addOption();
 //Write function of delete button to delete the alarm from Array
-// function to delete list alarm of ui 
+// function to delete list alarm when clicked from ui
